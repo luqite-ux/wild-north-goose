@@ -4,18 +4,16 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Package, Ruler, Palette } from 'lu
 import { notFound } from 'next/navigation'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
-import { getProductById, products } from '@/lib/products'
+import { fetchProductsData, getProductBySlug } from '@/lib/products-db'
 import { Button } from '@/components/ui/button'
+import { getSiteUrl } from '@/lib/site-url'
 
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    id: product.id,
-  }))
-}
+export const revalidate = 60
+export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const product = getProductById(id)
+  const product = await getProductBySlug(id)
   
   if (!product) {
     return {
@@ -26,18 +24,21 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return {
     title: `${product.name} | Wild North Goose`,
     description: product.description,
+    alternates: { canonical: `${getSiteUrl()}/products/${product.id}` },
+    openGraph: { type: 'website', url: `${getSiteUrl()}/products/${product.id}`, title: product.name, description: product.description, images: [product.image] },
   }
 }
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const product = getProductById(id)
+  const product = await getProductBySlug(id)
 
   if (!product) {
     notFound()
   }
 
   // Get related products from same category
+  const { products } = await fetchProductsData()
   const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3)

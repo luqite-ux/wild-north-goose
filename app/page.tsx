@@ -386,7 +386,7 @@ export default function HomePage() {
               <div className="mb-4">
                 <Shield className="mx-auto h-12 w-12 text-primary" />
               </div>
-              <div className="text-lg font-semibold text-foreground">Quality Certified</div>
+              <div className="text-lg font-semibold text-foreground">Quality Checked</div>
               <p className="mt-2 text-muted-foreground">Third-party inspections supported</p>
             </div>
           </div>

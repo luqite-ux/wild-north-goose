@@ -5,6 +5,7 @@ import Footer from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { useState } from 'react'
+import { getSupabaseClient, getTenantId } from '@/lib/supabase'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -24,27 +25,34 @@ export default function ContactPage() {
     e.preventDefault()
     setStatus('submitting')
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // In production, this would submit to a backend endpoint
-    console.log('[v0] Form submitted:', formData)
+    const client = getSupabaseClient()
+    const tenantId = getTenantId()
+    if (!client || !tenantId) {
+      setStatus('error')
+      return
+    }
+    const subject = [formData.productInterest, formData.quantity].filter(Boolean).join(' — ')
+    const message = [formData.customization && `Customization: ${formData.customization}`, formData.message].filter(Boolean).join('\n\n')
+    const { error } = await client.from('inquiries').insert({
+      tenant_id: tenantId,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || null,
+      company: formData.company || null,
+      subject: subject || 'Website inquiry',
+      message,
+    })
+    if (error) {
+      setStatus('error')
+      return
+    }
     setStatus('success')
-    
-    // Reset form after success
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        productInterest: '',
-        quantity: '',
-        customization: '',
-        message: '',
-      })
+    setFormData({
+      name: '', email: '', phone: '', company: '', productInterest: '', quantity: '', customization: '', message: '',
+    })
+    window.setTimeout(() => {
       setStatus('idle')
-    }, 3000)
+    }, 5000)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -75,7 +83,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl text-muted-foreground">
-              Ready to start your project? Fill out the form below and our team will respond within 24 hours.
+              Ready to start your project? Share your requirements and our team will review your inquiry.
             </p>
           </div>
         </section>
@@ -129,33 +137,12 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="bg-muted/50 p-8 rounded-lg">
-                  <h3 className="text-xl font-semibold mb-4">Business Hours</h3>
-                  <div className="space-y-2 text-muted-foreground">
-                    <div className="flex justify-between">
-                      <span>Monday - Friday</span>
-                      <span>9:00 - 18:00</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saturday</span>
-                      <span>By Appointment</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sunday</span>
-                      <span>Closed</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-4">
-                    China Standard Time (UTC+8)
-                  </p>
-                </div>
-
                 <div className="bg-card border border-border p-8 rounded-lg">
                   <h3 className="text-xl font-semibold mb-4">What to Expect</h3>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <span className="text-primary mt-1">•</span>
-                      <span>Response within 24 hours</span>
+                      <span>Requirements reviewed by our project team</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-primary mt-1">•</span>
@@ -324,7 +311,7 @@ export default function ContactPage() {
                       
                       {status === 'success' && (
                         <p className="text-center text-sm text-primary mt-4">
-                          Thank you! We&apos;ll be in touch within 24 hours.
+                          Thank you! Your inquiry has been received.
                         </p>
                       )}
                       

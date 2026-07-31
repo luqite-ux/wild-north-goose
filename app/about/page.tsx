@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export const metadata = {
   title: 'About Us | Wild North Goose',
-  description: 'Professional outdoor apparel manufacturer with over a decade of experience serving brands worldwide. Specializing in OEM/ODM services for performance outdoor wear.',
+  description: 'Learn about Wild North Goose and its OEM/ODM outdoor and knit apparel development services.',
 }
 
 export default function AboutPage() {
@@ -31,29 +31,6 @@ export default function AboutPage() {
       icon: Globe,
       title: 'Innovation',
       description: 'Continuous investment in new materials, techniques, and sustainable practices to stay ahead of industry trends.',
-    },
-  ]
-
-  const timeline = [
-    {
-      year: '2019',
-      title: 'Foundation',
-      description: 'Established as Suzhou Wild North Goose Apparel Co., Ltd., focusing on outdoor performance garments.',
-    },
-    {
-      year: '2020-2021',
-      title: 'Growth',
-      description: 'Expanded production capacity and client base, serving outdoor brands across North America and Europe.',
-    },
-    {
-      year: '2022-2023',
-      title: 'Specialization',
-      description: 'Developed expertise in technical fleece, tactical pants, and multi-functional outdoor wear.',
-    },
-    {
-      year: '2024+',
-      title: 'Future',
-      description: 'Continuing to innovate with sustainable materials and advanced manufacturing capabilities.',
     },
   ]
 
@@ -95,10 +72,10 @@ export default function AboutPage() {
                 <h2 className="text-4xl md:text-5xl font-bold mb-8">Who We Are</h2>
                 <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
                   <p>
-                    <span className="font-semibold text-foreground">Wild North Goose</span> (Suzhou Beimo Yan Apparel Co., Ltd. / 苏州北漠雁服饰有限公司) is a professional outdoor apparel manufacturer based in Suzhou, China, specializing in OEM and ODM services for outdoor brands worldwide.
+                    <span className="font-semibold text-foreground">Wild North Goose</span> is the public brand of 苏州北漠雁服饰有限公司, an apparel supplier in Jiangsu, China offering OEM and ODM support for outdoor and knitwear projects.
                   </p>
                   <p>
-                    With over a decade of experience in technical outdoor garment production, we have built our reputation on delivering consistent quality, flexible customization, and reliable service. Our facility combines modern manufacturing equipment with skilled craftsmanship to produce everything from high-performance fleece jackets to tactical cargo pants.
+                    Our current product range includes fleece jackets, outdoor pants, cargo shorts, and custom knitwear development, with flexible colors, sizes, materials, and production details.
                   </p>
                   <p>
                     We serve outdoor brands, retailers, and distributors looking for a manufacturing partner who understands the demanding requirements of outdoor apparel—durability, functionality, and performance in challenging conditions.
@@ -119,10 +96,7 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-6 text-center">
-                  <div>
-                    <div className="text-4xl font-bold text-primary mb-2">10+</div>
-                    <div className="text-sm text-muted-foreground">Years Experience</div>
-                  </div>
+                  <div><div className="text-4xl font-bold text-primary mb-2">XS–3XL</div><div className="text-sm text-muted-foreground">Available Sizes</div></div>
                   <div>
                     <div className="text-4xl font-bold text-primary mb-2">500+</div>
                     <div className="text-sm text-muted-foreground">Min Order Qty</div>
@@ -160,30 +134,6 @@ export default function AboutPage() {
                   </div>
                 )
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* Timeline */}
-        <section className="py-24 px-6 bg-background">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Journey</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                From foundation to the present, a commitment to quality and service.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {timeline.map((item) => (
-                <div key={item.year} className="relative">
-                  <div className="bg-card border border-border p-8 rounded-lg h-full hover:border-primary transition-colors">
-                    <div className="text-5xl font-bold text-primary mb-4">{item.year}</div>
-                    <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>

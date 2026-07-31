@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
-import { products, categories } from '@/lib/products'
+import { fetchProductsData } from '@/lib/products-db'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
@@ -11,7 +11,10 @@ export const metadata = {
   description: 'Explore our premium outdoor apparel collection including fleece jackets, tactical pants, and cargo shorts. OEM & ODM services available.',
 }
 
-export default function ProductsPage() {
+export const revalidate = 60
+
+export default async function ProductsPage() {
+  const { products, categories } = await fetchProductsData()
   return (
     <div className="min-h-screen">
       <Navigation />

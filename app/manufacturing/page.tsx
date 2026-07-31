@@ -162,8 +162,8 @@ export default function ManufacturingPage() {
                   <div className="text-muted-foreground">Minimum Order Quantity</div>
                 </div>
                 <div>
-                  <div className="text-5xl font-bold text-primary mb-2">10+</div>
-                  <div className="text-muted-foreground">Years Experience</div>
+                  <div className="text-5xl font-bold text-primary mb-2">XS–3XL</div>
+                  <div className="text-muted-foreground">Size Support</div>
                 </div>
               </div>
             </div>

@@ -27,6 +27,19 @@
   --radius: 0.5rem;
 }
 
+.article-prose {
+  color: var(--foreground);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+.article-prose :is(h2, h3) { margin: 2rem 0 0.75rem; font-weight: 700; }
+.article-prose h2 { font-size: 1.875rem; }
+.article-prose h3 { font-size: 1.5rem; }
+.article-prose p { margin: 1rem 0; }
+.article-prose :is(ul, ol) { margin: 1rem 0; padding-left: 1.5rem; }
+.article-prose a { color: var(--primary); text-decoration: underline; }
+
 .dark {
   --background: #1A2F1F;
   --foreground: #FAF8F5;
