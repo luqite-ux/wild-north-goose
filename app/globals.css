@@ -1,0 +1,133 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Wild North Goose Brand Colors - High-end outdoor aesthetic */
+  --background: #FAF8F5; /* Warm beige/cream */
+  --foreground: #1A2F1F; /* Deep forest green */
+  --card: #FFFFFF;
+  --card-foreground: #1A2F1F;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A2F1F;
+  --primary: #2D4A35; /* Forest green */
+  --primary-foreground: #FAF8F5;
+  --secondary: #5A6B62; /* Rock gray */
+  --secondary-foreground: #FAF8F5;
+  --muted: #E8E6E0; /* Light stone */
+  --muted-foreground: #5A6B62;
+  --accent: #8AADB8; /* Glacier blue - subtle accent */
+  --accent-foreground: #1A2F1F;
+  --destructive: #C84E3A;
+  --destructive-foreground: #FAF8F5;
+  --border: #D4D0C8;
+  --input: #E8E6E0;
+  --ring: #2D4A35;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #1A2F1F;
+  --foreground: #FAF8F5;
+  --card: #2D4A35;
+  --card-foreground: #FAF8F5;
+  --popover: #2D4A35;
+  --popover-foreground: #FAF8F5;
+  --primary: #FAF8F5;
+  --primary-foreground: #1A2F1F;
+  --secondary: #3E5647;
+  --secondary-foreground: #FAF8F5;
+  --muted: #3E5647;
+  --muted-foreground: #D4D0C8;
+  --accent: #8AADB8;
+  --accent-foreground: #1A2F1F;
+  --destructive: #E67061;
+  --destructive-foreground: #1A2F1F;
+  --border: #3E5647;
+  --input: #3E5647;
+  --ring: #8AADB8;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: ui-serif, Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+  
+  .animation-delay-600 {
+    animation-delay: 0.6s;
+  }
+}
