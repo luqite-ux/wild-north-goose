@@ -7,6 +7,8 @@ import { ArrowRight, CheckCircle2, Droplet, Wind, Mountain, Shield } from 'lucid
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
+import { Reveal } from '@/components/reveal'
+import { FEATURED_PRODUCTS, HOME_CATEGORIES } from '@/lib/homepage-products'
 
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -103,69 +105,46 @@ export default function HomePage() {
             <p className="text-xl text-muted-foreground">Premium outdoor apparel for every adventure</p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Fleece Jackets */}
-            <Link href="/products/fleece-jackets" className="group">
-              <div className="overflow-hidden rounded-lg bg-card shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="relative h-80 overflow-hidden">
-                  <Image
-                    src="/images/fleece-collar.jpg"
-                    alt="Fleece Jackets"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-2xl font-bold text-card-foreground">Fleece Jackets</h3>
-                  <p className="mb-4 text-muted-foreground">Premium insulated fleece with reversible design and superior warmth</p>
-                  <span className="inline-flex items-center text-primary font-medium group-hover:translate-x-2 transition-transform">
-                    View Collection <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            </Link>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {HOME_CATEGORIES.map((category, index) => (
+              <Reveal key={category.slug} delay={index * 100} variant={category.motion === 'soft' ? 'soft' : 'left'}>
+                <Link href={`/products?category=${category.slug}`} className="group block">
+                  <article className="tech-card overflow-hidden rounded-lg bg-card shadow-lg">
+                    <div className="relative h-72 overflow-hidden">
+                      <Image src={category.image} alt={category.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="mb-2 text-xl font-bold text-card-foreground">{category.name}</h3>
+                      <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{category.description}</p>
+                      <span className="inline-flex items-center font-medium text-primary">View Collection <ArrowRight className="ml-2 h-4 w-4" /></span>
+                    </div>
+                  </article>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Outdoor Pants */}
-            <Link href="/products/outdoor-pants" className="group">
-              <div className="overflow-hidden rounded-lg bg-card shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="relative h-80 overflow-hidden">
-                  <Image
-                    src="/images/pants-green.jpg"
-                    alt="Outdoor Pants"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-2xl font-bold text-card-foreground">Outdoor Pants</h3>
-                  <p className="mb-4 text-muted-foreground">Tactical cargo pants with reinforced knees and multiple storage pockets</p>
-                  <span className="inline-flex items-center text-primary font-medium group-hover:translate-x-2 transition-transform">
-                    View Collection <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Cargo Shorts */}
-            <Link href="/products/cargo-shorts" className="group">
-              <div className="overflow-hidden rounded-lg bg-card shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                <div className="relative h-80 overflow-hidden">
-                  <Image
-                    src="/images/shorts-beige.jpg"
-                    alt="Cargo Shorts"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-2xl font-bold text-card-foreground">Cargo Shorts</h3>
-                  <p className="mb-4 text-muted-foreground">Versatile outdoor shorts with utility pockets and durable construction</p>
-                  <span className="inline-flex items-center text-primary font-medium group-hover:translate-x-2 transition-transform">
-                    View Collection <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            </Link>
+      <section className="overflow-hidden bg-background py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+              <div><p className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-primary">Featured Products</p><h2 className="text-4xl font-bold text-foreground md:text-5xl">Featured Outdoor Collection</h2><p className="mt-4 max-w-2xl text-lg text-muted-foreground">Explore selected fleece, utility pants, shorts, and custom layers developed for outdoor brands.</p></div>
+              <Link href="/products"><Button size="lg" variant="outline">View All Products <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>
+            </div>
+          </Reveal>
+          <div className="featured-rail -mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
+            {FEATURED_PRODUCTS.map((product, index) => (
+              <Reveal key={product.slug} delay={(index % 4) * 90} className="min-w-[82vw] snap-start sm:min-w-[45vw] lg:min-w-0">
+                <Link href={`/products/${product.slug}`} className="group block h-full">
+                  <article className="tech-card h-full overflow-hidden rounded-xl border bg-card shadow-sm">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-muted"><Image src={product.image} alt={product.name} fill className="object-cover transition-transform duration-700 group-hover:scale-[1.045]" /></div>
+                    <div className="p-5"><p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{product.category}</p><h3 className="mt-2 text-xl font-bold text-card-foreground">{product.name}</h3><p className="mt-2 text-sm text-muted-foreground">Model {product.model}</p></div>
+                  </article>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -299,8 +278,8 @@ export default function HomePage() {
             <p className="text-xl text-muted-foreground">From concept to delivery, precision at every stage</p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="overflow-hidden rounded-lg bg-card shadow-lg">
+          <div className="manufacturing-flow grid gap-8 md:grid-cols-3">
+            <Reveal delay={0}><div className="process-card overflow-hidden rounded-lg bg-card shadow-lg">
               <div className="relative h-64">
                 <Image
                   src="/images/factory-interior.jpg"
@@ -313,24 +292,24 @@ export default function HomePage() {
                 <h3 className="mb-2 text-xl font-bold text-card-foreground">Advanced Production</h3>
                 <p className="text-muted-foreground">Modern facilities with skilled craftspeople ensuring consistent quality</p>
               </div>
-            </div>
+            </div></Reveal>
 
-            <div className="overflow-hidden rounded-lg bg-card shadow-lg">
+            <Reveal delay={140}><div className="process-card inspection-card overflow-hidden rounded-lg bg-card shadow-lg">
               <div className="relative h-64">
                 <Image
-                  src="/images/fleece-detail.jpg"
+                  src="/images/quality-inspection.png"
                   alt="Quality Control"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 hover:scale-110"
                 />
               </div>
               <div className="p-6">
                 <h3 className="mb-2 text-xl font-bold text-card-foreground">Quality Assurance</h3>
                 <p className="text-muted-foreground">Rigorous inspection processes and third-party quality verification</p>
               </div>
-            </div>
+            </div></Reveal>
 
-            <div className="overflow-hidden rounded-lg bg-card shadow-lg">
+            <Reveal delay={280}><div className="process-card overflow-hidden rounded-lg bg-card shadow-lg">
               <div className="relative h-64">
                 <Image
                   src="/images/factory-exterior.jpg"
@@ -343,7 +322,7 @@ export default function HomePage() {
                 <h3 className="mb-2 text-xl font-bold text-card-foreground">Reliable Delivery</h3>
                 <p className="text-muted-foreground">Efficient logistics with typical lead times of 15-30 days</p>
               </div>
-            </div>
+            </div></Reveal>
           </div>
 
           <div className="mt-12 text-center">
