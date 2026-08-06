@@ -1,9 +1,6 @@
-export const HOME_CATEGORIES = [
-  { slug: 'fleece-jackets', name: 'Fleece Jackets', description: 'Warm technical fleece layers for outdoor collections', image: '/products/fleece-jacket-reversible/1.jpg', motion: 'soft' },
-  { slug: 'outdoor-pants', name: 'Outdoor Pants', description: 'Utility trousers engineered for mobility and durability', image: '/products/cargo-pants-3218/1.jpg', motion: 'sharp' },
-  { slug: 'cargo-shorts', name: 'Cargo Shorts', description: 'Practical warm-weather styles with functional storage', image: '/products/mens-cargo-shorts-067/1.jpg', motion: 'sharp' },
-  { slug: 'knitwear', name: 'Knitwear', description: 'Custom soft layers developed for lifestyle collections', image: '/products/hooded-jacket-6801/1.jpg', motion: 'soft' },
-] as const
+export const CATEGORY_FILTERS = ['All', 'Fleece Jackets', 'Outdoor Pants', 'Cargo Shorts', 'Knitwear'] as const
+
+export type HomepageCategory = (typeof CATEGORY_FILTERS)[number]
 
 export const FEATURED_PRODUCTS = [
   { slug: 'fleece-jacket-reversible', model: 'WNG-FL-001', name: 'Reversible Fleece Jacket', category: 'Fleece Jackets', image: '/products/fleece-jacket-reversible/1.jpg' },

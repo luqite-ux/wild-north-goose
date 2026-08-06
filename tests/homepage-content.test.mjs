@@ -5,16 +5,19 @@ import test from 'node:test'
 const page = readFileSync(new URL('../app/page.tsx', import.meta.url), 'utf8')
 const homepageProducts = readFileSync(new URL('../lib/homepage-products.ts', import.meta.url), 'utf8')
 
-test('homepage exposes all four real product categories', () => {
-  for (const category of ['Fleece Jackets', 'Outdoor Pants', 'Cargo Shorts', 'Knitwear']) {
-    assert.match(homepageProducts, new RegExp(category))
+test('homepage merges category navigation into the featured collection', () => {
+  assert.doesNotMatch(page, />Product Categories</)
+  for (const category of ['All', 'Fleece Jackets', 'Outdoor Pants', 'Cargo Shorts', 'Knitwear']) {
+    assert.match(homepageProducts, new RegExp(`'${category}'`))
   }
-  assert.match(page, /lg:grid-cols-4/)
+  assert.match(page, /CATEGORY_FILTERS\.map/)
+  assert.match(page, /filteredProducts\.map/)
 })
 
 test('homepage adds an eight-product featured outdoor collection', () => {
   assert.match(page, /Featured Outdoor Collection/)
-  assert.match(page, /FEATURED_PRODUCTS\.map/)
+  assert.equal((homepageProducts.match(/slug:/g) ?? []).length, 8)
+  assert.match(page, /filteredProducts\.map/)
   assert.match(page, /View All Products/)
 })
 

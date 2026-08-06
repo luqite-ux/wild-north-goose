@@ -8,11 +8,15 @@ import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/reveal'
-import { FEATURED_PRODUCTS, HOME_CATEGORIES } from '@/lib/homepage-products'
+import { CATEGORY_FILTERS, FEATURED_PRODUCTS, type HomepageCategory } from '@/lib/homepage-products'
 
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState<HomepageCategory>('All')
   const heroRef = useRef<HTMLDivElement>(null)
+  const filteredProducts = selectedCategory === 'All'
+    ? FEATURED_PRODUCTS
+    : FEATURED_PRODUCTS.filter((product) => product.category === selectedCategory)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,36 +101,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Product Categories */}
-      <section className="bg-muted py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-foreground md:text-5xl">Product Categories</h2>
-            <p className="text-xl text-muted-foreground">Premium outdoor apparel for every adventure</p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {HOME_CATEGORIES.map((category, index) => (
-              <Reveal key={category.slug} delay={index * 100} variant={category.motion === 'soft' ? 'soft' : 'left'}>
-                <Link href={`/products?category=${category.slug}`} className="group block">
-                  <article className="tech-card overflow-hidden rounded-lg bg-card shadow-lg">
-                    <div className="relative h-72 overflow-hidden">
-                      <Image src={category.image} alt={category.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                    </div>
-                    <div className="p-5">
-                      <h3 className="mb-2 text-xl font-bold text-card-foreground">{category.name}</h3>
-                      <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{category.description}</p>
-                      <span className="inline-flex items-center font-medium text-primary">View Collection <ArrowRight className="ml-2 h-4 w-4" /></span>
-                    </div>
-                  </article>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="overflow-hidden bg-background py-24">
+      <section className="overflow-hidden bg-muted py-24 text-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -134,8 +109,27 @@ export default function HomePage() {
               <Link href="/products"><Button size="lg" variant="outline">View All Products <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>
             </div>
           </Reveal>
+          <Reveal delay={90}>
+            <div className="mb-10 flex gap-2 overflow-x-auto border-b border-border pb-px" role="tablist" aria-label="Filter featured products by category">
+              {CATEGORY_FILTERS.map((category) => {
+                const active = selectedCategory === category
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`category-filter whitespace-nowrap px-4 py-3 text-sm font-semibold transition-colors ${active ? 'is-active text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                  >
+                    {category}
+                  </button>
+                )
+              })}
+            </div>
+          </Reveal>
           <div className="featured-rail -mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
-            {FEATURED_PRODUCTS.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <Reveal key={product.slug} delay={(index % 4) * 90} className="min-w-[82vw] snap-start sm:min-w-[45vw] lg:min-w-0">
                 <Link href={`/products/${product.slug}`} className="group block h-full">
                   <article className="tech-card h-full overflow-hidden rounded-xl border bg-card shadow-sm">
