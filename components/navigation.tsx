@@ -15,9 +15,13 @@ export function Navigation() {
       setScrolled(window.scrollY > 50)
     }
     
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const topState = !scrolled && !mobileMenuOpen
+  const focusClasses = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
 
   const navLinks = [
     { href: '/products', label: 'Products' },
@@ -31,13 +35,18 @@ export function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-background/95 backdrop-blur-md shadow-md' : 'bg-transparent'
+        topState
+          ? 'border-b border-white/15 bg-[#10261a]/80 text-white shadow-sm backdrop-blur-md'
+          : 'border-b border-border bg-background/95 text-foreground shadow-md backdrop-blur-md'
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 transition-transform hover:scale-105">
+          <Link
+            href="/"
+            className={`flex items-center space-x-3 rounded-md transition-transform hover:scale-105 ${focusClasses} ${topState ? 'focus-visible:ring-white focus-visible:ring-offset-[#10261a]' : 'focus-visible:ring-primary focus-visible:ring-offset-background'}`}
+          >
             <Image
               src="/logo.png"
               alt="Wild North Goose"
@@ -46,7 +55,7 @@ export function Navigation() {
               className="h-14 w-14 object-contain"
               priority
             />
-            <span className="hidden text-xl font-bold tracking-tight text-foreground lg:block">
+            <span className={`hidden text-xl font-bold tracking-tight transition-colors duration-300 lg:block ${topState ? 'text-white' : 'text-foreground'}`}>
               WILD NORTH GOOSE
             </span>
           </Link>
@@ -57,13 +66,13 @@ export function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+                className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${focusClasses} ${topState ? 'text-white/85 hover:text-white focus-visible:ring-white focus-visible:ring-offset-[#10261a]' : 'text-foreground/80 hover:text-foreground focus-visible:ring-primary focus-visible:ring-offset-background'}`}
               >
                 {link.label}
               </Link>
             ))}
             <Link href="/contact">
-              <Button className="ml-4 bg-primary hover:bg-primary/90">
+              <Button className={`ml-4 ${focusClasses} ${topState ? 'bg-[#b9d7de] text-[#10261a] hover:bg-white focus-visible:ring-white focus-visible:ring-offset-[#10261a]' : 'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary focus-visible:ring-offset-background'}`}>
                 Contact Us
               </Button>
             </Link>
@@ -72,13 +81,14 @@ export function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden"
+            className={`rounded-md p-2 transition-colors lg:hidden ${focusClasses} ${topState ? 'text-white hover:bg-white/10 focus-visible:ring-white focus-visible:ring-offset-[#10261a]' : 'text-foreground hover:bg-muted focus-visible:ring-primary focus-visible:ring-offset-background'}`}
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-foreground" />
+              <X className="h-6 w-6" />
             ) : (
-              <Menu className="h-6 w-6 text-foreground" />
+              <Menu className="h-6 w-6" />
             )}
           </button>
         </div>
@@ -86,20 +96,20 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-border bg-background/98 backdrop-blur-md">
+        <div className="border-t border-border bg-background shadow-xl lg:hidden">
           <div className="space-y-1 px-4 pb-6 pt-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block rounded-md px-4 py-3 text-base font-medium text-foreground/80 hover:bg-muted hover:text-foreground"
+                className={`block rounded-md px-4 py-3 text-base font-medium text-foreground/80 hover:bg-muted hover:text-foreground ${focusClasses} focus-visible:ring-primary focus-visible:ring-offset-background`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
             <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-              <Button className="mt-4 w-full bg-primary hover:bg-primary/90">
+              <Button className={`mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90 ${focusClasses} focus-visible:ring-primary focus-visible:ring-offset-background`}>
                 Contact Us
               </Button>
             </Link>
