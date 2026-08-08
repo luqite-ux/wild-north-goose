@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 export const metadata = {
   title: 'OEM & ODM Services | Wild North Goose',
   description: 'Professional OEM and ODM outdoor apparel manufacturing. Custom design, materials, sizing, and branding. MOQ 500 units.',
+  alternates: { canonical: '/oem-odm' },
+  openGraph: { type: 'website', url: '/oem-odm', title: 'OEM & ODM Services | Wild North Goose', description: 'Custom outdoor apparel development from sampling through bulk production.', images: ['/logo.png'] },
 }
 
 export default function OEMODMPage() {

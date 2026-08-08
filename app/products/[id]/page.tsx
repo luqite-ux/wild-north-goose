@@ -42,9 +42,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3)
+  const productUrl = `${getSiteUrl()}/products/${product.id}`
+  const productSchema = {
+    '@context': 'https://schema.org', '@type': 'Product', name: product.name,
+    description: product.description, image: product.images, sku: product.sku,
+    brand: { '@type': 'Brand', name: 'Wild North Goose' }, url: productUrl,
+  }
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: getSiteUrl() },
+      { '@type': 'ListItem', position: 2, name: 'Products', item: `${getSiteUrl()}/products` },
+      { '@type': 'ListItem', position: 3, name: product.name, item: productUrl },
+    ],
+  }
 
   return (
     <div className="min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Navigation />
 
       {/* Breadcrumb */}

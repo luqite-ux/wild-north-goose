@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [{ products }, articles] = await Promise.all([fetchProductsData('en'), getPublishedArticles('en')])
   return [
     ...staticRoutes.map((route) => ({ url: `${siteUrl}${route}`, lastModified: new Date() })),
-    ...products.map((product) => ({ url: `${siteUrl}/products/${product.id}`, lastModified: new Date() })),
+    ...products.map((product) => ({ url: `${siteUrl}/products/${product.id}`, lastModified: new Date(product.updatedAt || Date.now()) })),
     ...articles.map((article) => ({ url: `${siteUrl}/news/${article.slug}`, lastModified: new Date(article.updatedAt || article.publishedAt || Date.now()) })),
   ]
 }

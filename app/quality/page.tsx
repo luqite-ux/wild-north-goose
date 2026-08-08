@@ -8,6 +8,8 @@ import Link from 'next/link'
 export const metadata = {
   title: 'Quality Assurance | Wild North Goose',
   description: 'Rigorous quality control systems ensuring every garment meets international standards for outdoor performance apparel.',
+  alternates: { canonical: '/quality' },
+  openGraph: { type: 'website', url: '/quality', title: 'Quality Inspection | Wild North Goose', description: 'Material, inline, and pre-shipment inspection processes for outdoor apparel orders.', images: ['/images/quality-inspection.png'] },
 }
 
 export default function QualityPage() {

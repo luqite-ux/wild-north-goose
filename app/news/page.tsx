@@ -9,6 +9,8 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Insights | Wild North Goose',
   description: 'Product development, manufacturing, and outdoor apparel insights from Wild North Goose.',
+  alternates: { canonical: '/news' },
+  openGraph: { type: 'website', url: '/news', title: 'Insights | Wild North Goose', description: 'Product development, manufacturing, and outdoor apparel insights from Wild North Goose.', images: ['/logo.png'] },
 }
 
 export default async function NewsPage() {

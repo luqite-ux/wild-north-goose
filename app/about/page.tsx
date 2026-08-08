@@ -8,6 +8,8 @@ import Link from 'next/link'
 export const metadata = {
   title: 'About Us | Wild North Goose',
   description: 'Learn about Wild North Goose and its OEM/ODM outdoor and knit apparel development services.',
+  alternates: { canonical: '/about' },
+  openGraph: { type: 'website', url: '/about', title: 'About Wild North Goose', description: 'Suzhou Wild North Goose Apparel develops outdoor and knit apparel for international buyers.', images: ['/logo.png'] },
 }
 
 export default function AboutPage() {

@@ -8,6 +8,8 @@ import Link from 'next/link'
 export const metadata = {
   title: 'Manufacturing Capabilities | Wild North Goose',
   description: 'State-of-the-art manufacturing facilities with experienced production teams, quality control systems, and flexible capacity for both sampling and bulk production.',
+  alternates: { canonical: '/manufacturing' },
+  openGraph: { type: 'website', url: '/manufacturing', title: 'Manufacturing Capabilities | Wild North Goose', description: 'Outdoor apparel sampling, production, inspection, and order coordination.', images: ['/images/factory-interior.jpg'] },
 }
 
 export default function ManufacturingPage() {

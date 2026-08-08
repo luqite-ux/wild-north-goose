@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button'
 export const metadata = {
   title: 'Products | Wild North Goose',
   description: 'Explore our premium outdoor apparel collection including fleece jackets, tactical pants, and cargo shorts. OEM & ODM services available.',
+  alternates: { canonical: '/products' },
+  openGraph: { type: 'website', url: '/products', title: 'Products | Wild North Goose', description: 'Explore fleece jackets, outdoor pants, cargo shorts, and custom apparel programs.', images: ['/logo.png'] },
 }
 
 export const revalidate = 60
