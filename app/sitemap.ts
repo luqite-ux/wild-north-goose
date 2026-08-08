@@ -8,7 +8,7 @@ export const revalidate = 60
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl()
   const staticRoutes = ['', '/products', '/news', '/oem-odm', '/manufacturing', '/quality', '/about', '/faq', '/contact']
-  const [{ products }, articles] = await Promise.all([fetchProductsData(), getPublishedArticles()])
+  const [{ products }, articles] = await Promise.all([fetchProductsData('en'), getPublishedArticles('en')])
   return [
     ...staticRoutes.map((route) => ({ url: `${siteUrl}${route}`, lastModified: new Date() })),
     ...products.map((product) => ({ url: `${siteUrl}/products/${product.id}`, lastModified: new Date() })),

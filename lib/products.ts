@@ -10,6 +10,7 @@ export interface Product {
   applications: string[]
   image: string
   images: string[]
+  updatedAt?: string | null
 }
 
 export const products: Product[] = [

@@ -14,7 +14,7 @@ export const metadata = {
 export const revalidate = 60
 
 export default async function ProductsPage() {
-  const { products, categories } = await fetchProductsData()
+  const { products, categories } = await fetchProductsData('en')
   return (
     <div className="min-h-screen">
       <Navigation />

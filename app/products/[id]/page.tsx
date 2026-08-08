@@ -13,7 +13,7 @@ export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const product = await getProductBySlug(id)
+  const product = await getProductBySlug(id, 'en')
   
   if (!product) {
     return {
@@ -31,14 +31,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const product = await getProductBySlug(id)
+  const product = await getProductBySlug(id, 'en')
 
   if (!product) {
     notFound()
   }
 
   // Get related products from same category
-  const { products } = await fetchProductsData()
+  const { products } = await fetchProductsData('en')
   const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3)

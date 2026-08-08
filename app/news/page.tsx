@@ -12,6 +12,6 @@ export const metadata: Metadata = {
 }
 
 export default async function NewsPage() {
-  const articles = await getPublishedArticles()
+  const articles = await getPublishedArticles('en')
   return <><Navigation /><NewsPageClient articles={articles} /><Footer /></>
 }

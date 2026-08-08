@@ -10,7 +10,7 @@ export const revalidate = 60
 export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const article = await getArticleBySlug((await params).slug)
+  const article = await getArticleBySlug((await params).slug, 'en')
   return article ? {
     title: `${article.title} | Wild North Goose`, description: article.excerpt,
     alternates: { canonical: `${getSiteUrl()}/news/${article.slug}` },
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function NewsArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const article = await getArticleBySlug((await params).slug)
+  const article = await getArticleBySlug((await params).slug, 'en')
   if (!article) notFound()
   return <><Navigation /><NewsArticleClient article={article} /><Footer /></>
 }

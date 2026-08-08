@@ -8,11 +8,11 @@ const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), 'u
 
 test('product and article routes use server data with ISR', () => {
   assert.match(read('app/products/page.tsx'), /export const revalidate = 60/)
-  assert.match(read('app/products/page.tsx'), /await fetchProductsData\(\)/)
+  assert.match(read('app/products/page.tsx'), /await fetchProductsData\(['"]en['"]\)/)
   const productDetail = read('app/products/[id]/page.tsx')
   assert.match(productDetail, /export const dynamicParams = true/)
-  assert.match(productDetail, /await getProductBySlug\(id\)/)
-  assert.match(read('app/news/page.tsx'), /await getPublishedArticles\(\)/)
+  assert.match(productDetail, /await getProductBySlug\(id, ['"]en['"]\)/)
+  assert.match(read('app/news/page.tsx'), /await getPublishedArticles\(['"]en['"]\)/)
   assert.match(read('app/news/[slug]/page.tsx'), /await getArticleBySlug/)
 })
 
