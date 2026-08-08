@@ -3,7 +3,7 @@
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import { Button } from '@/components/ui/button'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 import { useState } from 'react'
 import { getSupabaseClient, getTenantId } from '@/lib/supabase'
 
@@ -11,7 +11,6 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     company: '',
     productInterest: '',
     quantity: '',
@@ -37,7 +36,7 @@ export default function ContactPage() {
       tenant_id: tenantId,
       name: formData.name,
       email: formData.email,
-      phone: formData.phone || null,
+      phone: null,
       company: formData.company || null,
       subject: subject || 'Website inquiry',
       message,
@@ -48,11 +47,8 @@ export default function ContactPage() {
     }
     setStatus('success')
     setFormData({
-      name: '', email: '', phone: '', company: '', productInterest: '', quantity: '', customization: '', message: '',
+      name: '', email: '', company: '', productInterest: '', quantity: '', customization: '', message: '',
     })
-    window.setTimeout(() => {
-      setStatus('idle')
-    }, 5000)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -105,8 +101,8 @@ export default function ContactPage() {
                       <div>
                         <div className="font-semibold mb-1">Location</div>
                         <div className="text-muted-foreground">
-                          Suzhou, Jiangsu Province<br />
-                          China
+                          No. 98 Tonggang Road, Building 1<br />
+                          Changshu, Jiangsu, China
                         </div>
                       </div>
                     </div>
@@ -117,21 +113,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <div className="font-semibold mb-1">Email</div>
-                        <div className="text-muted-foreground">
-                          [Contact details to be provided]
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="bg-primary/10 p-3 rounded-lg">
-                        <Phone className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <div className="font-semibold mb-1">Phone / WhatsApp</div>
-                        <div className="text-muted-foreground">
-                          [Contact details to be provided]
-                        </div>
+                        <a
+                          className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                          href="mailto:info@wildnorthgooseoutdoor.com"
+                        >
+                          info@wildnorthgooseoutdoor.com
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -200,22 +187,7 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                          Phone / WhatsApp
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-                          placeholder="+1 234 567 8900"
-                        />
-                      </div>
-
+                    <div>
                       <div>
                         <label htmlFor="company" className="block text-sm font-medium mb-2">
                           Company Name

@@ -28,7 +28,8 @@ export async function fetchProductsData(): Promise<{ products: Product[]; catego
     .order('sort_order')
 
   if (error || !data?.length) return { products: fallbackProducts, categories: fallbackCategories }
-  return { products: (data as ProductRow[]).map(mapProduct), categories: fallbackCategories }
+  const products = (data as ProductRow[]).map(mapProduct).filter((product): product is Product => product !== null)
+  return products.length ? { products, categories: fallbackCategories } : { products: fallbackProducts, categories: fallbackCategories }
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
@@ -36,10 +37,12 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
   return products.find((product) => product.id === slug)
 }
 
-function mapProduct(row: ProductRow): Product {
+function mapProduct(row: ProductRow): Product | null {
   const extra = objectValue(row.extra_data)
   const specs = objectValue(row.specs)
-  const image = row.image_url || '/placeholder.jpg'
+  const extraImages = stringArray(extra.images)
+  const image = row.image_url || extraImages[0]
+  if (!image) return null
   return {
     id: row.slug || row.model || row.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     sku: stringValue(extra.sku) || row.model || '',
@@ -51,7 +54,7 @@ function mapProduct(row: ProductRow): Product {
     colors: stringArray(extra.colors).length ? stringArray(extra.colors) : splitSpec(specs.Colors),
     sizes: stringArray(extra.sizes).length ? stringArray(extra.sizes) : splitSpec(specs.Sizes),
     image,
-    images: stringArray(extra.images).length ? stringArray(extra.images) : [image],
+    images: extraImages.length ? extraImages : [image],
   }
 }
 

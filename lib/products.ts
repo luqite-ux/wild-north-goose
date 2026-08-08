@@ -186,7 +186,7 @@ export const categories = [
   {
     slug: 'knitwear',
     name: 'Knitwear',
-    description: 'Coming soon - Premium outdoor knitwear collection',
+    description: 'Custom knit layers developed for outdoor and lifestyle collections',
     image: '/images/fleece-black-models.jpg',
   },
 ]
