@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
 export function Footer() {
+  const footerCompanyName = 'Suzhou Wild North Goose Apparel Co., Ltd.'.replace(/[.\s]+$/, '')
   const productLinks = [
     { href: '/products', label: 'All Products' },
     { href: '/products/fleece-jackets', label: 'Fleece Jackets' },
@@ -28,13 +29,13 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block">
+            <Link href="/" aria-label="Suzhou Wild North Goose Apparel home" className="inline-block max-w-full">
               <Image
                 src="/logo.png"
                 alt="Wild North Goose"
-                width={80}
-                height={80}
-                className="h-20 w-20"
+                width={104}
+                height={104}
+                className="h-[104px] w-[104px] max-w-full object-contain"
               />
             </Link>
             <p className="mt-4 text-sm text-primary-foreground/80 leading-relaxed">
@@ -110,8 +111,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col items-center justify-between space-y-4 text-sm text-primary-foreground/60 md:flex-row md:space-y-0">
-            <p>© {new Date().getFullYear()} Wild North Goose. All rights reserved.</p>
-            <p>苏州北漠雁服饰有限公司</p>
+            <p>© {new Date().getFullYear()} {footerCompanyName}. All rights reserved.</p>
           </div>
         </div>
       </div>

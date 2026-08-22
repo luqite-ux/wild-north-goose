@@ -26,10 +26,14 @@ test('Supabase configuration is environment-only and products retain fallback', 
   assert.equal(read('lib/articles-db.ts').includes('fallback'), false)
 })
 
-test('contact form performs a real tenant-scoped inquiry insert', () => {
+test('contact form posts to a server route that verifies CAPTCHA before the tenant-scoped insert', () => {
   const contact = read('app/contact/page.tsx')
-  assert.match(contact, /from\('inquiries'\)\.insert/)
-  assert.match(contact, /tenant_id: tenantId/)
+  const route = read('app/api/inquiry/route.ts')
+  assert.match(contact, /fetch\(['"]\/api\/inquiry['"]/)
+  assert.match(contact, /captchaScope/)
+  assert.match(route, /verifyCaptchaSubmission/)
+  assert.ok(route.indexOf('verifyCaptchaSubmission(') < route.indexOf("from('inquiries').insert"))
+  assert.match(route, /tenant_id: tenantId/)
   assert.match(contact, /disabled=\{status === 'submitting'\}/)
   assert.equal(contact.includes('setTimeout(resolve'), false)
   assert.equal(contact.includes("console.log('[v0]"), false)

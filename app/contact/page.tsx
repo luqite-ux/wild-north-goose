@@ -5,7 +5,7 @@ import Footer from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { Mail, MapPin } from 'lucide-react'
 import { useState } from 'react'
-import { getSupabaseClient, getTenantId } from '@/lib/supabase'
+import { InquiryCaptchaField } from '@/components/inquiry-captcha-field'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,29 +19,32 @@ export default function ContactPage() {
   })
   
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [captchaRefreshKey, setCaptchaRefreshKey] = useState(0)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('submitting')
     
-    const client = getSupabaseClient()
-    const tenantId = getTenantId()
-    if (!client || !tenantId) {
-      setStatus('error')
-      return
-    }
+    const form = e.currentTarget as HTMLFormElement
+    const submission = new FormData(form)
     const subject = [formData.productInterest, formData.quantity].filter(Boolean).join(' — ')
     const message = [formData.customization && `Customization: ${formData.customization}`, formData.message].filter(Boolean).join('\n\n')
-    const { error } = await client.from('inquiries').insert({
-      tenant_id: tenantId,
+    const response = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
       name: formData.name,
       email: formData.email,
-      phone: null,
       company: formData.company || null,
       subject: subject || 'Website inquiry',
       message,
+      captchaScope: String(submission.get('captchaScope') ?? ''),
+      captchaToken: String(submission.get('captchaToken') ?? ''),
+      captchaAnswer: String(submission.get('captchaAnswer') ?? ''),
+      }),
     })
-    if (error) {
+    setCaptchaRefreshKey((current) => current + 1)
+    if (!response.ok) {
       setStatus('error')
       return
     }
@@ -254,6 +257,8 @@ export default function ContactPage() {
                         placeholder="Colors, sizes, branding, special features..."
                       />
                     </div>
+
+                    <InquiryCaptchaField refreshKey={captchaRefreshKey} />
 
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium mb-2">
