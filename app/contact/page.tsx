@@ -29,29 +29,34 @@ export default function ContactPage() {
     const submission = new FormData(form)
     const subject = [formData.productInterest, formData.quantity].filter(Boolean).join(' — ')
     const message = [formData.customization && `Customization: ${formData.customization}`, formData.message].filter(Boolean).join('\n\n')
-    const response = await fetch('/api/inquiry', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-      name: formData.name,
-      email: formData.email,
-      company: formData.company || null,
-      subject: subject || 'Website inquiry',
-      message,
-      captchaScope: String(submission.get('captchaScope') ?? ''),
-      captchaToken: String(submission.get('captchaToken') ?? ''),
-      captchaAnswer: String(submission.get('captchaAnswer') ?? ''),
-      }),
-    })
-    setCaptchaRefreshKey((current) => current + 1)
-    if (!response.ok) {
+    try {
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || null,
+          subject: subject || 'Website inquiry',
+          message,
+          captchaScope: String(submission.get('captchaScope') ?? ''),
+          captchaToken: String(submission.get('captchaToken') ?? ''),
+          captchaAnswer: String(submission.get('captchaAnswer') ?? ''),
+        }),
+      })
+      if (!response.ok) {
+        setStatus('error')
+        return
+      }
+      setStatus('success')
+      setFormData({
+        name: '', email: '', company: '', productInterest: '', quantity: '', customization: '', message: '',
+      })
+    } catch {
       setStatus('error')
-      return
+    } finally {
+      setCaptchaRefreshKey((current) => current + 1)
     }
-    setStatus('success')
-    setFormData({
-      name: '', email: '', company: '', productInterest: '', quantity: '', customization: '', message: '',
-    })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
